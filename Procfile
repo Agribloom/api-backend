@@ -1,0 +1,1 @@
+web: gunicorn agribloom.wsgi --log-file -
