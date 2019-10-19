@@ -38,6 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # local apps
+    'accounts.apps.AccountsConfig',
+
+    # 3'rd party apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +86,7 @@ WSGI_APPLICATION = 'agribloom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DATABASE_NAME'),
         'USER': os.environ.get('DATABASE_USER'),
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
@@ -117,6 +127,33 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+TIME_ZONE = 'Africa/Lagos'
+
+# Custom User Model
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Site Id
+SITE_ID = os.environ.get('SITE_ID', 1)
+
+# allauth customization
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+
+# Django phone numbers
+PHONENUMBER_DEFAULT_REGION = 'NG'
+PHONENUMBER_DB_FORMAT = 'E164'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 
 
 # Static files (CSS, JavaScript, Images)
