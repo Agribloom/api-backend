@@ -14,7 +14,7 @@ class CustomUserAdmin(UserAdmin):
 
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['username', 'email', 'phone_number']
+    list_display = ['get_username_or_fullname', 'email', 'phone_number']
     list_filter = ['date_joined', 'last_login', 'is_active', 'is_staff']
     search_fields = ['username', 'email', 'phone_number']
     fieldsets = UserAdmin.fieldsets + (
