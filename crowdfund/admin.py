@@ -1,5 +1,5 @@
 from django.contrib import admin
-from crowdfund.models import Farm, Project, PManager, Category
+from crowdfund.models import Farm, Project, PManager, Category, Update
 
 
 @admin.register(Category)
@@ -44,3 +44,10 @@ class FarmAdmin(admin.ModelAdmin):
         'roi', 'start_date', 'end_date'
     ]
     raw_id_fields = ['project_manger']
+
+@admin.register(Update)
+class UpdateAdmin(admin.ModelAdmin):
+    
+    list_display = ['activity']
+    prepopulated_fields = {"slug": ("activity",)}
+

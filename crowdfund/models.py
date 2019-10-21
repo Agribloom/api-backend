@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
@@ -97,3 +99,28 @@ class Farm(Project):
 
     def get_absolute_url(self):
         return reverse("farm_detail", kwargs={"pk": self.pk})
+
+
+class Update(models.Model):
+
+    activity = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
+    description = models.TextField()
+    report = models.TextField()
+    date = models.DateField() 
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Farm and project update"
+        verbose_name_plural = "Farm and Project updates"
+
+    def __str__(self):
+        return self.activity
+
+    def get_absolute_url(self):
+        return reverse("update_detail", kwargs={"slug": self.slug})
