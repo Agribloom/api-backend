@@ -158,11 +158,12 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
@@ -170,6 +171,9 @@ STATICFILES_DIRS = (
 )
 
 CURRENCIES = ('NGN',)
-CURRENCY_CHOICES = [('NGN', 'NGN ₦'),]
+CURRENCY_CHOICES = [('NGN', 'NGN ₦'), ]
+
+DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
+# DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH')
 
 settings(locals())
