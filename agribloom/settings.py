@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'phonenumber_field',
+    'djmoney',
 ]
 
 MIDDLEWARE = [
@@ -167,5 +168,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+CURRENCIES = ('NGN',)
+CURRENCY_CHOICES = [('NGN', 'NGN ₦'),]
 
 settings(locals())

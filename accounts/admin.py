@@ -6,7 +6,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, Transaction
 
 
 @admin.register(CustomUser)
@@ -25,3 +25,11 @@ class CustomUserAdmin(UserAdmin):
     )
     
     model = CustomUser
+
+@admin.register(Transaction)
+class TransactionAdmin(admin.ModelAdmin):
+    
+    list_display = ['owner', 'amount', 'status', 'transaction_type']
+    list_filter = ['status', 'transaction_type']
+    search_fields = ['owner__username', 'owner__first_name', 'owner__last_name']
+    raw_id_fields = ['owner']

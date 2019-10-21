@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from djmoney.models.fields import MoneyField
 
 class PManager(models.Model):
 
@@ -16,7 +17,7 @@ class PManager(models.Model):
         verbose_name_plural = "project and farm managers"
 
     def __str__(self):
-        return self.name
+        return self.manager.get_username_or_fullname()
 
     def get_absolute_url(self):
         return reverse("manager_detail", kwargs={"pk": self.pk})
@@ -59,7 +60,7 @@ class Project(models.Model):
     insured = models.BooleanField(default=True)
     units = models.PositiveIntegerField()
     unit_in_stock = models.PositiveIntegerField()
-    price_per_unit = models.PositiveIntegerField()
+    price_per_unit = MoneyField(max_digits=14, decimal_places=2, default_currency='NGN')
     roi = models.PositiveSmallIntegerField()
     image = models.ImageField(upload_to='images/farm/%Y/')
     start_date = models.DateField()

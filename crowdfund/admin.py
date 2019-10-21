@@ -6,6 +6,7 @@ from crowdfund.models import Farm, Project, PManager, Category
 class CategoryAdmin(admin.ModelAdmin):
 
     list_display = ['name']
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(PManager)
@@ -27,6 +28,7 @@ class ProjectAdmin(admin.ModelAdmin):
         'insured', 'units', 'unit_in_stock', 'price_per_unit',
         'roi', 'start_date', 'end_date'
     ]
+    raw_id_fields = ['project_manger']
 
 
 @admin.register(Farm)
@@ -41,3 +43,4 @@ class FarmAdmin(admin.ModelAdmin):
         'insured', 'units', 'unit_in_stock', 'price_per_unit',
         'roi', 'start_date', 'end_date'
     ]
+    raw_id_fields = ['project_manger']
