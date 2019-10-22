@@ -7,6 +7,7 @@ class TransactionListView(ListAPIView):
 
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
+    filterset_fields = ['status', 'transaction_type']
 
     def get_queryset(self):
         return Transaction.objects.filter(owner=self.request.user)

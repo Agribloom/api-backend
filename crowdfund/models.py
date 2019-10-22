@@ -46,14 +46,20 @@ class Category(models.Model):
 
 class Project(models.Model):
 
+    PROJECT_OPEN = 'open'
+    PROJECT_CLOSE = 'close'
+    PROJECT_SOLD_OUT = 'sold_out'
+
     PROJECT_STATUS = (
-        ('open', 'Open'),
-        ('close', 'Closed')
+        (PROJECT_OPEN, 'Open'),
+        (PROJECT_CLOSE, 'Closed'),
+        (PROJECT_SOLD_OUT, 'Sold out')
     )
 
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255)
     description = models.TextField()
+    status = models.CharField(max_length=50, choices=PROJECT_STATUS, default=PROJECT_CLOSE)
     project_manger = models.ForeignKey(PManager, verbose_name='project manager', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     duration = models.PositiveSmallIntegerField()

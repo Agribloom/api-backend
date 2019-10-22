@@ -6,6 +6,7 @@ from crowdfund.serializers import CategorySerializer, FarmSerializer, ProjectMan
 class FarmListAPIView(ListAPIView):
     
     serializer_class = FarmSerializer
+    filterset_fields = ['insured', 'status', 'category']
     
     
     def get_queryset(self):
@@ -15,6 +16,7 @@ class FarmListAPIView(ListAPIView):
 class ProjectListAPIView(ListAPIView):
     
     serializer_class = ProjectSerializer
+    filterset_fields = ['insured', 'status', 'catergory']
     
     
     def get_queryset(self):
