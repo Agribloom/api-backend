@@ -1,3 +1,29 @@
-from django.shortcuts import render
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from crowdfund.models import Category, Farm, Project, PManager, Update
+from crowdfund.serializers import CategorySerializer, FarmSerializer, ProjectManagerSerializer, UpdateSerializer, ProjectSerializer
 
-# Create your views here.
+class FarmListAPIView(ListAPIView):
+    
+    serializer_class = FarmSerializer
+    
+    
+    def get_queryset(self):
+        return Farm.objects.all()
+    
+    
+class ProjectListAPIView(ListAPIView):
+    
+    serializer_class = ProjectSerializer
+    
+    
+    def get_queryset(self):
+        return Project.objects.all()
+
+class CategoryListAPIView(ListAPIView):
+    
+    serializer_class = CategorySerializer
+    
+    
+    def get_queryset(self):
+        return Category.objects.all()
