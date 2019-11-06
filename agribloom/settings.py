@@ -55,11 +55,13 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_auth.registration',
     'django_filters',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -197,5 +199,7 @@ CURRENCY_CHOICES = [('NGN', 'NGN ₦'), ]
 
 DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
 # DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH')
+
+CORS_ORIGIN_ALLOW_ALL = True  # TODO: change to whitelist
 
 settings(locals())
