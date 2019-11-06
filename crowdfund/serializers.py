@@ -44,7 +44,7 @@ class UpdateSerializer(ModelSerializer):
         # )
 
 
-class FarmSerializer(ModelSerializer):
+class FarmDetailSerializer(ModelSerializer):
 
     updates = UpdateSerializer(source='update_set', many=True, read_only=True)
 
@@ -61,6 +61,23 @@ class FarmSerializer(ModelSerializer):
         # read_only_fields = (
         #     'expires', 'user'
         # )
+
+class FarmListSerializer(ModelSerializer):
+
+    class Meta:
+        model = Farm
+        fields = (
+            "id", "name", "slug", "description", "status", "duration",
+            "location", "insurance_statement", "insured", "units",
+            "unit_in_stock", "price_per_unit_currency", "price_per_unit",
+            "roi", "image", "stage", "harvest_date", "start_date",
+            "end_date", "manger", "category", "created", "updated"
+        )
+
+        # read_only_fields = (
+        #     'expires', 'user'
+        # )
+
 
 
 class FarmManagerSerializer(ModelSerializer):
