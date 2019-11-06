@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ReadOnlyField, HyperlinkedModelSerializer
-from crowdfund.models import Category, Project, Farm, PManager, Update
+from crowdfund.models import Category, Farm, FarmManager, Update
 
 
 class CategorySerializer(ModelSerializer):
@@ -15,18 +15,6 @@ class CategorySerializer(ModelSerializer):
         # )
 
 
-class ProjectSerializer(ModelSerializer):
-
-    class Meta:
-        model = Project
-        fields = (
-            '__all__'
-        )
-
-        # read_only_fields = (
-        #     'creator',
-        # )
-
 
 class FarmSerializer(ModelSerializer):
 
@@ -40,10 +28,10 @@ class FarmSerializer(ModelSerializer):
         #     'expires', 'user'
         # )
 
-class ProjectManagerSerializer(ModelSerializer):
+class FarmManagerSerializer(ModelSerializer):
 
     class Meta:
-        model = PManager
+        model = FarmManager
         fields = (
             '__all__'
         )

@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.conf import settings
 from djmoney.models.fields import MoneyField
 
-class PManager(models.Model):
+class FarmManager(models.Model):
 
     ROLE_TYPE = (
         ('P', 'Project Manager'),
@@ -15,8 +15,8 @@ class PManager(models.Model):
     role = models.CharField(max_length=50, choices=ROLE_TYPE)
 
     class Meta:
-        verbose_name = "project and farm manager"
-        verbose_name_plural = "project and farm managers"
+        verbose_name = "farm manager"
+        verbose_name_plural = "farm managers"
 
     def __str__(self):
         return self.manager.get_username_or_fullname()
@@ -41,10 +41,10 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("category_detail", kwargs={"pk": self.slug})
+        return reverse("category_detail", kwargs={"slug": self.slug})
 
 
-class Project(models.Model):
+class Farm(models.Model):
 
     PROJECT_OPEN = 'open'
     PROJECT_CLOSE = 'close'
@@ -60,7 +60,7 @@ class Project(models.Model):
     slug = models.SlugField(max_length=255)
     description = models.TextField()
     status = models.CharField(max_length=50, choices=PROJECT_STATUS, default=PROJECT_CLOSE)
-    project_manger = models.ForeignKey(PManager, verbose_name='project manager', on_delete=models.CASCADE)
+    manger = models.ForeignKey(FarmManager, verbose_name='farm manager', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     duration = models.PositiveSmallIntegerField()
     location = models.CharField(max_length=150)
@@ -71,30 +71,13 @@ class Project(models.Model):
     price_per_unit = MoneyField(max_digits=14, decimal_places=2, default_currency='NGN')
     roi = models.PositiveSmallIntegerField()
     image = models.ImageField(upload_to='images/farm/%Y/')
+    stage = models.CharField('farm stage', max_length=50)
+    harvest_date = models.DateField()
     start_date = models.DateField()
     end_date = models.DateField()
 
-
-    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = "project"
-        verbose_name_plural = "projects"
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse("project_detail", kwargs={"slug": self.slug})
-
-
-class Farm(Project):
-
-    stage = models.CharField('farm stage', max_length=50)
-    harvest_date = models.DateField()
-
 
     class Meta:
         verbose_name = "farm"
@@ -104,26 +87,24 @@ class Farm(Project):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("farm_detail", kwargs={"pk": self.pk})
+        return reverse("farm_detail", kwargs={"slug": self.slug})
 
 
 class Update(models.Model):
 
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     activity = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     description = models.TextField()
     report = models.TextField()
     date = models.DateField() 
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Farm and project update"
-        verbose_name_plural = "Farm and Project updates"
+        verbose_name = "Farm update"
+        verbose_name_plural = "Farm updates"
 
     def __str__(self):
         return self.activity
