@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ReadOnlyField, HyperlinkedModelSerializer
-from crowdfund.models import Category, Farm, FarmManager, Update
+from crowdfund.models import Category, Farm, FarmManager, Update, UpdateImage
 
 
 class CategorySerializer(ModelSerializer):
@@ -15,13 +15,28 @@ class CategorySerializer(ModelSerializer):
         # )
 
 
+class UpdateImageSerializer(ModelSerializer):
+
+    class Meta:
+        model = UpdateImage
+        fields = (
+            '__all__'
+        )
+
+        # read_only_fields = (
+        #     'name', 'description'
+        # )
+
+
 class UpdateSerializer(ModelSerializer):
+
+    images = UpdateImageSerializer(source='updateimage_set', many=True, read_only=True)
 
     class Meta:
         model = Update
         fields = (
             "id", "activity", "slug", "description",
-            "report", "date", "created", "updated",
+            "report", "images", "date", "created", "updated",
         )
 
         # read_only_fields = (

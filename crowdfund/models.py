@@ -5,13 +5,16 @@ from django.urls import reverse
 from django.conf import settings
 from djmoney.models.fields import MoneyField
 
+
 class FarmManager(models.Model):
 
     ROLE_TYPE = (
         ('P', 'Project Manager'),
         ('F', 'Farm Manager')
     )
-    manager = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    manager = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     role = models.CharField(max_length=50, choices=ROLE_TYPE)
 
     class Meta:
@@ -59,8 +62,14 @@ class Farm(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=255)
     description = models.TextField()
-    status = models.CharField(max_length=50, choices=PROJECT_STATUS, default=PROJECT_CLOSE)
-    manger = models.ForeignKey(FarmManager, verbose_name='farm manager', on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=50, choices=PROJECT_STATUS,
+        default=PROJECT_CLOSE
+    )
+    manger = models.ForeignKey(
+        FarmManager, verbose_name='farm manager',
+        on_delete=models.CASCADE
+    )
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     duration = models.PositiveSmallIntegerField()
     location = models.CharField(max_length=150)
@@ -68,7 +77,10 @@ class Farm(models.Model):
     insured = models.BooleanField(default=True)
     units = models.PositiveIntegerField()
     unit_in_stock = models.PositiveIntegerField()
-    price_per_unit = MoneyField(max_digits=14, decimal_places=2, default_currency='NGN')
+    price_per_unit = MoneyField(
+        max_digits=14, decimal_places=2,
+        default_currency='NGN'
+    )
     roi = models.PositiveSmallIntegerField()
     image = models.ImageField(upload_to='images/farm/%Y/')
     stage = models.CharField('farm stage', max_length=50)
@@ -97,7 +109,7 @@ class Update(models.Model):
     slug = models.SlugField(max_length=255)
     description = models.TextField()
     report = models.TextField()
-    date = models.DateField() 
+    date = models.DateField()
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -111,3 +123,20 @@ class Update(models.Model):
 
     def get_absolute_url(self):
         return reverse("update_detail", kwargs={"slug": self.slug})
+
+
+class UpdateImage(models.Model):
+
+    update = models.ForeignKey(Update, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='images/farm/%Y')
+    position = models.PositiveSmallIntegerField()
+
+    class Meta:
+        verbose_name = "Update Image"
+        verbose_name_plural = "Update Images"
+
+    def __str__(self):
+        return '{} ({})'.format(self.update.farm.name, self.update.date)
+
+    def get_absolute_url(self):
+        return reverse("UpdateImage_detail", kwargs={"pk": self.pk})

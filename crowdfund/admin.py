@@ -1,5 +1,10 @@
 from django.contrib import admin
-from crowdfund.models import Farm, FarmManager, Category, Update
+from crowdfund.models import Farm, FarmManager, Category, Update, UpdateImage
+
+
+class UpdateImageInline(admin.TabularInline):
+    model = UpdateImage
+    extra = 3
 
 
 @admin.register(Category)
@@ -11,10 +16,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(FarmManager)
 class FarmManagerAdmin(admin.ModelAdmin):
-    
-    list_display = ['manager', 'role']
-    raw_id_fields = ['manager',]
 
+    list_display = ['manager', 'role']
+    raw_id_fields = ['manager', ]
 
 
 @admin.register(Farm)
@@ -31,9 +35,10 @@ class FarmAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = ['manger']
 
+
 @admin.register(Update)
 class UpdateAdmin(admin.ModelAdmin):
-    
+
     list_display = ['activity']
     prepopulated_fields = {"slug": ("activity",)}
-
+    inlines = [UpdateImageInline, ]
