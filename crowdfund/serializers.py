@@ -20,7 +20,7 @@ class UpdateImageSerializer(ModelSerializer):
     class Meta:
         model = UpdateImage
         fields = (
-            '__all__'
+            'id', 'image', 'position'
         )
 
         # read_only_fields = (
