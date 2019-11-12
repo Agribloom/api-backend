@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.conf import settings
 from phonenumber_field.modelfields import PhoneNumberField
 from djmoney.models.fields import MoneyField
+from crowdfund.models import Farm
 
 
 class CustomUser(AbstractUser):
@@ -43,25 +44,24 @@ class Transaction(models.Model):
 
     PAID = 'paid'
     PENDING = 'pending'
-    DEPOSIT = 'deposit'
-    WITHDRAWAL = 'withdrawal'
+    PURCHASE = 'purchase'
+    DIVIDENDS = 'dividends'
 
     TRANSACTION_STATUS = (
         (PAID, 'Paid'),
         (PENDING, 'Pending'),
     )
     TRANSACTION_TYPE = (
-        (DEPOSIT, 'Deposit'),
-        (WITHDRAWAL, 'Withdrawal')
+        (PURCHASE, 'Purchase'),
+        (DIVIDENDS, 'Dividends')
     )
-
+    
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     amount = MoneyField(max_digits=14, decimal_places=2, default_currency='NGN')
     status = models.CharField(max_length=50, choices=TRANSACTION_STATUS)
     transaction_type = models.CharField(max_length=50, choices=TRANSACTION_TYPE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+
 
 
     created = models.DateTimeField(auto_now_add=True)
@@ -72,7 +72,11 @@ class Transaction(models.Model):
         verbose_name_plural = "transactions"
 
     def __str__(self):
-        return self.owner.get_username_or_fullname()
+        return '{} {} {}'.format(
+            self.owner.get_username_or_fullname(),
+            self.farm,
+            self.created
+        )
 
     def get_absolute_url(self):
         return reverse("transaction_detail", kwargs={"pk": self.pk})
