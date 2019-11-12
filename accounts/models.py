@@ -57,6 +57,7 @@ class Transaction(models.Model):
     )
     
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    description = models.TextField()
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     amount = MoneyField(max_digits=14, decimal_places=2, default_currency='NGN')
     status = models.CharField(max_length=50, choices=TRANSACTION_STATUS)
