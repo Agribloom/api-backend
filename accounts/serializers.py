@@ -2,8 +2,10 @@ from django.contrib.auth import get_user_model
 from rest_framework.serializers import ModelSerializer
 from rest_auth.serializers import UserDetailsSerializer
 from accounts.models import Transaction
+from crowdfund.serializers import FarmMetaSerializer
 
 UserModel = get_user_model()
+
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
 
@@ -19,13 +21,15 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
 
 class TransactionSerializer(ModelSerializer):
 
+    farm = FarmMetaSerializer()
+
     class Meta:
         model = Transaction
         fields = (
-            '__all__'
+            'farm', 'description', 'status', 'transaction_type',
+            'amount', 'amount_currency', 'created', 'updated'
         )
 
-        read_only_fields = (
-            'owner',
-        )
-    
+        # read_only_fields = (
+        #     'owner',
+        # )

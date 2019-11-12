@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
@@ -140,3 +141,36 @@ class UpdateImage(models.Model):
 
     def get_absolute_url(self):
         return reverse("UpdateImage_detail", kwargs={"pk": self.pk})
+
+
+class Investment(models.Model):
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+    units = models.PositiveIntegerField(
+        default=1,
+        validators=[MinValueValidator(1)]
+    )
+    amount = MoneyField(
+        max_digits=14, decimal_places=2,
+        default_currency='NGN'
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "investment"
+        verbose_name_plural = "investments"
+
+    def __str__(self):
+        return 'Owner: {} Farm: {} Units: {}'.format(
+            self.owner,
+            self.farm,
+            self.units
+        )
+
+    def get_absolute_url(self):
+        return reverse("investment_detail", kwargs={"pk": self.pk})

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from crowdfund.models import Farm, FarmManager, Category, Update, UpdateImage
+from crowdfund.models import Farm, FarmManager, Category, Update, UpdateImage, Investment
 
 
 class UpdateImageInline(admin.TabularInline):
@@ -42,3 +42,14 @@ class UpdateAdmin(admin.ModelAdmin):
     list_display = ['activity']
     prepopulated_fields = {"slug": ("activity",)}
     inlines = [UpdateImageInline, ]
+
+
+@admin.register(Investment)
+class InvestmentAdmin(admin.ModelAdmin):
+
+    list_display = ['owner', 'farm', 'units', 'amount']
+    search_fields = [
+        'owner__username', 'owner__first_name', 'owner__lastname',
+        'farm__name',
+    ]
+    list_filter = ['farm']

@@ -25,7 +25,8 @@ class CustomUser(AbstractUser):
     # Account payment related details
     bank_name = models.CharField("bank name", max_length=255, null=True)
     account_name = models.CharField("account name", max_length=50, null=True)
-    account_number = models.CharField("account number", max_length=11, null=True)
+    account_number = models.CharField(
+        "account number", max_length=11, null=True)
 
     def get_absolute_url(self):
         return reverse("user_profile", args=[self.username])
@@ -33,7 +34,7 @@ class CustomUser(AbstractUser):
     def get_username_or_fullname(self):
         if not self.get_full_name().strip():
             return self.get_username()
-        
+
         return self.get_full_name()
 
     def __str__(self):
@@ -55,15 +56,20 @@ class Transaction(models.Model):
         (PURCHASE, 'Purchase'),
         (DIVIDENDS, 'Dividends')
     )
-    
+
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     description = models.TextField()
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
-    amount = MoneyField(max_digits=14, decimal_places=2, default_currency='NGN')
+    amount = MoneyField(
+        max_digits=14,
+        decimal_places=2,
+        default_currency='NGN'
+    )
     status = models.CharField(max_length=50, choices=TRANSACTION_STATUS)
-    transaction_type = models.CharField(max_length=50, choices=TRANSACTION_TYPE)
-
-
+    transaction_type = models.CharField(
+        max_length=50,
+        choices=TRANSACTION_TYPE
+    )
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
