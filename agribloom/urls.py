@@ -21,6 +21,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path("v1/auth/", include('accounts.urls')),
     path("v1/", include('crowdfund.urls')),
+    path("v1/", include('farm_stat.urls')),
     path('v1/auth/', include('rest_auth.urls')),
     path('v1/auth/registration/', include('rest_auth.registration.urls'))
 ]
