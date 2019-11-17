@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # local apps
     'accounts.apps.AccountsConfig',
     'crowdfund.apps.CrowdfundConfig',
+    'farm_stat.apps.FarmStatConfig',
 
     # 3'rd party apps
     'allauth',
