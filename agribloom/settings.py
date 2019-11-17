@@ -187,12 +187,15 @@ REST_AUTH_SERIALIZERS = {
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = (
+    os.path.join(BASE_DIR, 'static'),
+)
 DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
 CURRENCIES = ('NGN',)
 CURRENCY_CHOICES = [('NGN', 'NGN ₦'), ]
