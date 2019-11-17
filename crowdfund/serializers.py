@@ -55,6 +55,7 @@ class FarmDetailSerializer(ModelSerializer):
             "id", "name", "slug", "description", "status", "duration",
             "location", "insurance_statement", "insured", "units",
             "unit_in_stock", "price_per_unit_currency", "price_per_unit",
+            "raised", 'raised_currency', 'target', 'target_currency',
             "roi", "image", "stage", "harvest_date", "start_date",
             "end_date", "manger", "category", "updates", "created", "updated"
         )
@@ -72,6 +73,7 @@ class FarmListSerializer(ModelSerializer):
             "id", "name", "slug", "description", "status", "duration",
             "location", "insurance_statement", "insured", "units",
             "unit_in_stock", "price_per_unit_currency", "price_per_unit",
+            "raised", 'raised_currency', 'target', 'target_currency',
             "roi", "image", "stage", "harvest_date", "start_date",
             "end_date", "manger", "category", "created", "updated"
         )

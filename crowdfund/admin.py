@@ -25,7 +25,8 @@ class FarmManagerAdmin(admin.ModelAdmin):
 class FarmAdmin(admin.ModelAdmin):
 
     list_display = [
-        'name', 'manger', 'category', 'duration', 'location'
+        'name', 'manger', 'category', 'duration', 'location',
+        # 'raised', 'target',
     ]
     search_fields = ['name', 'location', 'manger']
     prepopulated_fields = {"slug": ("name",)}

@@ -80,9 +80,19 @@ class Farm(models.Model):
     unit_in_stock = models.PositiveIntegerField()
     price_per_unit = MoneyField(
         max_digits=14, decimal_places=2,
-        default_currency='NGN'
+        default_currency='NGN',
+        default=0
     )
     roi = models.PositiveSmallIntegerField()
+    raised = MoneyField(
+        max_digits=14, decimal_places=2,
+        default_currency='NGN',
+        default=0
+    )
+    target = MoneyField(
+        max_digits=14, decimal_places=2,
+        default_currency='NGN'
+    )
     image = models.ImageField(upload_to='images/farm/%Y/')
     stage = models.CharField('farm stage', max_length=50)
     harvest_date = models.DateField()
