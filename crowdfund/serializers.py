@@ -1,8 +1,12 @@
-from rest_framework.serializers import ModelSerializer, ReadOnlyField, HyperlinkedModelSerializer
+import requests
+from django.conf import settings
+from requests.exceptions import HTTPError
+from rest_framework import serializers
+from agribloom.utils import PaystackAuth
 from crowdfund.models import Category, Farm, FarmManager, Update, UpdateImage, Investment
 
 
-class CategorySerializer(ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
@@ -15,7 +19,7 @@ class CategorySerializer(ModelSerializer):
         # )
 
 
-class UpdateImageSerializer(ModelSerializer):
+class UpdateImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UpdateImage
@@ -28,7 +32,7 @@ class UpdateImageSerializer(ModelSerializer):
         # )
 
 
-class UpdateSerializer(ModelSerializer):
+class UpdateSerializer(serializers.ModelSerializer):
 
     images = UpdateImageSerializer(
         source='updateimage_set', many=True, read_only=True)
@@ -45,7 +49,7 @@ class UpdateSerializer(ModelSerializer):
         # )
 
 
-class FarmDetailSerializer(ModelSerializer):
+class FarmDetailSerializer(serializers.ModelSerializer):
 
     updates = UpdateSerializer(source='update_set', many=True, read_only=True)
 
@@ -65,7 +69,7 @@ class FarmDetailSerializer(ModelSerializer):
         # )
 
 
-class FarmListSerializer(ModelSerializer):
+class FarmListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farm
@@ -83,7 +87,7 @@ class FarmListSerializer(ModelSerializer):
         # )
 
 
-class FarmManagerSerializer(ModelSerializer):
+class FarmManagerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FarmManager
@@ -96,7 +100,7 @@ class FarmManagerSerializer(ModelSerializer):
         # )
 
 
-class FarmMetaSerializer(ModelSerializer):
+class FarmMetaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Farm
@@ -111,15 +115,30 @@ class FarmMetaSerializer(ModelSerializer):
         # )
 
 
-class InvestmentSerializer(ModelSerializer):
+class InvestmentSerializer(serializers.ModelSerializer):
 
-    farm = FarmMetaSerializer()
+    # farm = FarmMetaSerializer()
+
+    def validate_transaction_id(self, value):
+        url = 'https://api.paystack.co/transaction/verify/{}'.format(
+            value
+        )
+        try:
+            response = requests.get(url, auth=PaystackAuth(settings.PAYSTACK_SECRET_KEY))
+            return value
+            # response.raise_for_status()
+        except HTTPError as http_err:
+            raise serializers.ValidationError(f'HTTP error occurred: {http_err.response.content}')  # Python 3.6
+        except Exception as err:
+            raise serializers.ValidationError(f'Other error occurred: {err}')  # Python 3.6
+        else:
+            raise serializers.ValidationError('value')
 
     class Meta:
         model = Investment
         fields = (
-            'farm', 'amount', 'units', 'amount',
-            'amount_currency', 'created', 'updated'
+            'farm', 'amount', 'units', 'transaction_id',
+            'amount_currency', 'created', 'updated',
         )
 
         # read_only_fields = (

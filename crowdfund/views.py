@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from crowdfund.models import Category, Farm, FarmManager, Update, Investment
@@ -46,7 +47,7 @@ class CategoryDetailView(RetrieveAPIView):
         return Farm.objects.all()
 
 
-class InvestmentListView(ListAPIView):
+class InvestmentListView(ListCreateAPIView):
 
     serializer_class = InvestmentSerializer
 
@@ -56,3 +57,9 @@ class InvestmentListView(ListAPIView):
                 owner=self.request.user
             )
         return Investment.objects.none()
+
+    def perform_create(self, serializer):
+        try:
+            serializer.save(owner=self.request.user)
+        except Exception:
+            raise serializers.ValidationError("Please login")
