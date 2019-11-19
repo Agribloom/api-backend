@@ -50,6 +50,7 @@ class CategoryDetailView(RetrieveAPIView):
 class InvestmentListView(ListCreateAPIView):
 
     serializer_class = InvestmentSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
