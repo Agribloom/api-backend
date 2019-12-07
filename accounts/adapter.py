@@ -24,5 +24,5 @@ class AccountAdapter(DefaultAccountAdapter):
             if is_disposable:
                 raise ValidationError('You are restricted from registering with disposable email.')
         except HTTPError:
-            raise ValidationError('An error occurred while trying to valid your email. Please try again, if problem persist contact admin.')
+            raise ValidationError('An error occurred while trying to validate your email. Please try again, if problem persist contact admin.')
         return email
