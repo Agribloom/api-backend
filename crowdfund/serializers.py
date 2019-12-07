@@ -124,13 +124,27 @@ class InvestmentSerializer(serializers.ModelSerializer):
             value
         )
         try:
-            response = requests.get(url, auth=PaystackAuth(settings.PAYSTACK_SECRET_KEY))
-            return value
-            # response.raise_for_status()
+            response = requests.get(
+                url,
+                auth=PaystackAuth(settings.PAYSTACK_SECRET_KEY)
+            )
+            json_response = response.json()
+            # print(json_response)
+            status = json_response.get('data').get('status')
+            if status == 'success':
+                return value
+            else:
+                raise serializers.ValidationError('Invalid transaction')
+
+            raise serializers.ValidationError('Invalid transaction')
         except HTTPError as http_err:
-            raise serializers.ValidationError(f'HTTP error occurred: {http_err.response.content}')  # Python 3.6
+            raise serializers.ValidationError(
+                f'HTTP error occurred: {http_err.response.content}'
+            )  # Python 3.6
         except Exception as err:
-            raise serializers.ValidationError(f'Other error occurred: {err}')  # Python 3.6
+            raise serializers.ValidationError(
+                f'Other error occurred: {err}'
+            )  # Python 3.6
         else:
             raise serializers.ValidationError('value')
 

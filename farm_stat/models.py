@@ -56,3 +56,18 @@ class Partner(models.Model):
 
     def get_absolute_url(self):
         return reverse("partner_detail", kwargs={"pk": self.pk})
+
+
+class Team(models.Model):
+
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = "team"
+        verbose_name_plural = "teams"
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("team_detail", kwargs={"pk": self.pk})
