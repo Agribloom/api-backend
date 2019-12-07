@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='https://agribloom.farm')), # Redirect to root domain
     path('farm-admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path("v1/auth/", include('accounts.urls')),
