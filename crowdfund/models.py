@@ -10,11 +10,15 @@ from djmoney.models.fields import MoneyField
 class FarmManager(models.Model):
 
     ROLE_TYPE = (
-        ('P', 'Project Manager'),
-        ('F', 'Farm Manager')
+        ('Project Manager', 'Project Manager'),
+        ('Farm Manager', 'Farm Manager')
     )
     manager = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
+    farm = models.ForeignKey(
+        "crowdfund.Farm", on_delete=models.CASCADE,
+        null=True
     )
     role = models.CharField(max_length=50, choices=ROLE_TYPE)
 
@@ -67,10 +71,10 @@ class Farm(models.Model):
         max_length=50, choices=PROJECT_STATUS,
         default=PROJECT_CLOSE
     )
-    manger = models.ForeignKey(
-        FarmManager, verbose_name='farm manager',
-        on_delete=models.CASCADE
-    )
+    # manager = models.ForeignKey(
+    #     FarmManager, verbose_name='farm manager',
+    #     on_delete=models.CASCADE
+    # )
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     duration = models.PositiveSmallIntegerField()
     location = models.CharField(max_length=150)

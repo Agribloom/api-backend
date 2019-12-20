@@ -1,9 +1,22 @@
 import requests
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from requests.exceptions import HTTPError
 from rest_framework import serializers
+from accounts.serializers import UserDetailsSerializer
 from agribloom.utils import PaystackAuth
 from crowdfund.models import Category, Farm, FarmManager, Update, UpdateImage, Investment
+
+UserModel = get_user_model()
+
+
+class FarmManagerDetailsSerializer(UserDetailsSerializer):
+
+    class Meta:
+        model = UserModel
+        fields = (
+            'first_name', 'last_name', 'email', 'phone_number', 'gender',
+        )
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -49,9 +62,27 @@ class UpdateSerializer(serializers.ModelSerializer):
         # )
 
 
+class FarmManagerSerializer(serializers.ModelSerializer):
+
+    meta = FarmManagerDetailsSerializer(source='manager')
+
+    class Meta:
+        model = FarmManager
+        fields = (
+            'role', 'meta'
+        )
+
+        # read_only_fields = (
+        #     'expires', 'user'
+        # )
+
+
 class FarmDetailSerializer(serializers.ModelSerializer):
 
     updates = UpdateSerializer(source='update_set', many=True, read_only=True)
+    managers = FarmManagerSerializer(
+        source='farmmanager_set', many=True, read_only=True
+    )
 
     class Meta:
         model = Farm
@@ -61,7 +92,7 @@ class FarmDetailSerializer(serializers.ModelSerializer):
             "unit_in_stock", "price_per_unit_currency", "price_per_unit",
             "raised", 'raised_currency', 'target', 'target_currency',
             "roi", "image", "stage", "harvest_date", "start_date",
-            "end_date", "manger", "category", "updates", "created", "updated"
+            "end_date", "managers", "category", "updates", "created", "updated"
         )
 
         # read_only_fields = (
@@ -79,20 +110,7 @@ class FarmListSerializer(serializers.ModelSerializer):
             "unit_in_stock", "price_per_unit_currency", "price_per_unit",
             "raised", 'raised_currency', 'target', 'target_currency',
             "roi", "image", "stage", "harvest_date", "start_date",
-            "end_date", "manger", "category", "created", "updated"
-        )
-
-        # read_only_fields = (
-        #     'expires', 'user'
-        # )
-
-
-class FarmManagerSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = FarmManager
-        fields = (
-            '__all__'
+            "end_date", "category", "created", "updated"
         )
 
         # read_only_fields = (

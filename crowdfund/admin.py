@@ -17,7 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(FarmManager)
 class FarmManagerAdmin(admin.ModelAdmin):
 
-    list_display = ['manager', 'role']
+    list_display = ['manager', 'role', 'farm']
     raw_id_fields = ['manager', ]
 
 
@@ -25,16 +25,16 @@ class FarmManagerAdmin(admin.ModelAdmin):
 class FarmAdmin(admin.ModelAdmin):
 
     list_display = [
-        'name', 'manger', 'category', 'duration', 'location',
+        'name', 'category', 'duration', 'location',
         # 'raised', 'target',
     ]
-    search_fields = ['name', 'location', 'manger']
+    search_fields = ['name', 'location']
     prepopulated_fields = {"slug": ("name",)}
     list_filter = [
         'insured', 'units', 'unit_in_stock', 'price_per_unit',
         'roi', 'start_date', 'end_date'
     ]
-    raw_id_fields = ['manger']
+    # raw_id_fields = ['manger']
 
 
 @admin.register(Update)
