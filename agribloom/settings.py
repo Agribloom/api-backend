@@ -214,6 +214,10 @@ PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', None)
 DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
 # DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH')
 
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = os.environ.get('MJ_APIKEY_PUBLIC')
+MAILJET_API_SECRET = os.environ.get('MJ_APIKEY_SECRET')
+
 CORS_ORIGIN_ALLOW_ALL = True  # TODO: change to whitelist
 
 settings(locals())
