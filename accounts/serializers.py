@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework.serializers import ModelSerializer
 from rest_auth.serializers import UserDetailsSerializer
+from rest_auth.serializers import PasswordResetSerializer
+from allauth.account.forms import ResetPasswordForm 
 from accounts.models import Transaction
 from crowdfund.serializers import FarmMetaSerializer
 
@@ -33,3 +35,6 @@ class TransactionSerializer(ModelSerializer):
         # read_only_fields = (
         #     'owner',
         # )
+
+class PasswordSerializer(PasswordResetSerializer):
+    password_reset_form_class = ResetPasswordForm
