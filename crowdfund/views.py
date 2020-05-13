@@ -60,7 +60,7 @@ class InvestmentListView(ListCreateAPIView):
         return Investment.objects.none()
 
     def perform_create(self, serializer):
-        try:
-            serializer.save(owner=self.request.user)
-        except Exception:
-            raise serializers.ValidationError("Please login")
+        # try:
+        serializer.save(owner=self.request.user)
+        # except Exception:
+        #     raise serializers.ValidationError("Please login")
