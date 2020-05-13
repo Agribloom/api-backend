@@ -173,6 +173,7 @@ class Investment(models.Model):
         default_currency='NGN'
     )
     transaction_id = models.CharField(max_length=100)
+    reference = models.CharField(max_length=100, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

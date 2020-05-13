@@ -137,7 +137,7 @@ class InvestmentSerializer(serializers.ModelSerializer):
 
     # farm = FarmMetaSerializer()
 
-    def validate_transaction_id(self, value):
+    def validate_reference(self, value):
         url = 'https://api.paystack.co/transaction/verify/{}'.format(
             value
         )
@@ -169,7 +169,7 @@ class InvestmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Investment
         fields = (
-            'farm', 'amount', 'units', 'transaction_id',
+            'farm', 'amount', 'units', 'transaction_id', 'reference',
             'amount_currency', 'created', 'updated',
         )
 
