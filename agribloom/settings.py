@@ -216,7 +216,12 @@ DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
 # DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH')
 
 DEFAULT_FROM_EMAIL = 'no-reply@agribloom.farm'
-EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+
+if os.environ.get('DEBUG', True) == 'True':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+    
 MAILJET_API_KEY = os.environ.get('MJ_APIKEY_PUBLIC')
 MAILJET_API_SECRET = os.environ.get('MJ_APIKEY_SECRET')
 
