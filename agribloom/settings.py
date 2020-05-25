@@ -186,9 +186,12 @@ REST_FRAMEWORK = {
     'ORDERING_PARAM': 'ordering',
 }
 
+OLD_PASSWORD_FIELD_ENABLED = True
+
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
     'PASSWORD_RESET_SERIALIZER': 'accounts.serializers.PasswordSerializer',
+    'PASSWORD_RESET_CONFIRM_SERIALIZER': 'accounts.serializers.CustomPasswordResetConfirmSerializer',
 }
 
 
