@@ -1,6 +1,7 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.core import exceptions, validators
 from django.urls import reverse
+from django.utils.http import urlencode
 from django import forms
 from allauth.account.adapter import app_settings
 from allauth.account.adapter import get_adapter
@@ -83,15 +84,18 @@ class CustomRestResetPasswordForm(ResetPasswordForm):
             # password_reset = PasswordReset(user=user, temp_key=temp_key)
             # password_reset.save()
 
-            print(temp_key)
-            print(user_pk_to_url_str(user))
-
             # send the password reset email
-            path = reverse("account_reset_password_from_key",
-                           kwargs=dict(uidb36=user_pk_to_url_str(user),
-                                       key=temp_key))
+            # path = reverse("account_reset_password_from_key",
+            #                kwargs=dict(uidb36=user_pk_to_url_str(user),
+            #                            key=temp_key))
+
+            path = 'https://agribloom.farm/password/reset?key={0}-{1}'.format( # TODO: look for a dynamic alternative
+                user_pk_to_url_str(user),
+                temp_key
+            )
             url = build_absolute_uri(
-                request, path)
+                request, path
+            )
 
             context = {"current_site": current_site,
                        "user": user,
