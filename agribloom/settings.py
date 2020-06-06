@@ -218,7 +218,7 @@ PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', None)
 DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
 # DROPBOX_ROOT_PATH = os.environ.get('DROPBOX_ROOT_PATH')
 
-DEFAULT_FROM_EMAIL = 'no-reply@agribloom.farm'
+DEFAULT_FROM_EMAIL = 'Agribloom <no-reply@agribloom.farm>'
 
 if os.environ.get('DEBUG', True) == 'True':
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
