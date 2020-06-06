@@ -89,7 +89,7 @@ class CustomRestResetPasswordForm(ResetPasswordForm):
             #                kwargs=dict(uidb36=user_pk_to_url_str(user),
             #                            key=temp_key))
 
-            path = 'https://agribloom.farm/password-reset?key={0}-{1}'.format( # TODO: look for a dynamic alternative
+            path = 'https://agribloom.farm/reset-password?key={0}-{1}'.format( # TODO: look for a dynamic alternative
                 user_pk_to_url_str(user),
                 temp_key
             )
