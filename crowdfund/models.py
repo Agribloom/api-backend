@@ -177,6 +177,23 @@ class Investment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+
+    @property
+    def full_name(self):
+        return "%s %s"%(self.owner.first_name, self.owner.last_name)
+
+    @property
+    def bank_name(self):
+        return self.owner.bank_name
+    
+    @property
+    def account_name(self):
+        return self.owner.account_name
+    
+    @property
+    def account_number(self):
+        return self.owner.account_number
+
     class Meta:
         verbose_name = "investment"
         verbose_name_plural = "investments"

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from crowdfund.models import Farm, FarmManager, Category, Update, UpdateImage, Investment
+from agribloom.utils import export_as_csv_action
 
 
 class UpdateImageInline(admin.TabularInline):
@@ -48,9 +49,22 @@ class UpdateAdmin(admin.ModelAdmin):
 @admin.register(Investment)
 class InvestmentAdmin(admin.ModelAdmin):
 
-    list_display = ['owner', 'farm', 'units', 'amount']
+    list_display = ['owner', 'full_name', 'farm', 'units', 'amount', 'created']
     search_fields = [
         'owner__username', 'owner__first_name', 'owner__lastname',
         'farm__name',
     ]
     list_filter = ['farm']
+
+    actions = [
+        export_as_csv_action("Export Investor as CSV",   fields=[
+            'full_name',
+            'bank_name',
+            'account_name',
+            'account_number',
+            'amount',
+            'units',
+            'farm',
+            'created'
+        ])
+    ]
