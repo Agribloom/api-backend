@@ -61,7 +61,10 @@ class CustomUserAdmin(UserAdmin):
             'email',
             'phone_number',
             'first_name',
-            'last_name'
+            'last_name',
+            'bank_name',
+            'account_name',
+            'account_number'
         ])
     ]
     search_fields = ['username', 'email', 'phone_number']
