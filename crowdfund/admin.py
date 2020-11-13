@@ -51,7 +51,7 @@ class InvestmentAdmin(admin.ModelAdmin):
 
     list_display = ['owner', 'full_name', 'farm', 'units', 'amount', 'created']
     search_fields = [
-        'owner__username', 'owner__first_name', 'owner__lastname',
+        'owner__username', 'owner__first_name', 'owner__last_name',
         'farm__name',
     ]
     list_filter = ['farm']
